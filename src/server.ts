@@ -253,40 +253,49 @@ app.delete('/api/items/:id', async (req: Request, res: Response) => {
 // --- End Airtable Integration ---
 
 
-// Start the server
-const server = app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// --- Server Startup and Error Handling ---
+let serverInstance: any;
+let retryCount = 0;
+const maxRetries = 5; // Limit retries to prevent infinite loops
+const retryDelay = 1000; // 1 second delay between retries
 
-// Handle EADDRINUSE error: if the port is already in use, kill the process and restart
-server.on('error', (err: NodeJS.ErrnoException) => {
+function startServer() {
+  serverInstance = app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+
+  serverInstance.on('error', handleError);
+}
+
+function handleError(err: NodeJS.ErrnoException) {
   if (err.code === 'EADDRINUSE') {
-    console.error(`Port ${port} is already in use. Attempting to kill the process.`);
-    // Use a shell command to find the process ID and kill it
-    // This command might vary slightly depending on the OS, but 'lsof' and 'kill' are common on Linux/macOS
-    // For Windows, you might use 'netstat -ano | findstr :<port>' and 'taskkill /PID <PID> /F'
-    // We'll use a Linux-compatible command here.
-    const killCommand = `lsof -i :${port} | grep LISTEN | awk '{print $2}' | xargs kill -9`;
+    if (retryCount < maxRetries) {
+      console.error(`Port ${port} is already in use. Attempting to kill the process (Retry ${retryCount + 1}/${maxRetries}).`);
+      // Use a shell command to find the process ID and kill it
+      const killCommand = `lsof -i :${port} | grep LISTEN | awk '{print $2}' | xargs kill -9`;
 
-    require('child_process').exec(killCommand, (error: Error | null, stdout: string, stderr: string) => {
-      if (error) {
-        console.error(`Error killing process on port ${port}: ${stderr}`);
-        // If killing failed, we might want to exit or retry differently
-        process.exit(1);
-      } else {
-        console.log(`Process on port ${port} killed successfully.`);
-        // Attempt to restart the server after killing the process
-        // Note: This is a simplified restart. In a real app, you might want a more robust retry mechanism.
-        console.log('Attempting to restart the server...');
-        // A simple way to restart is to re-execute the script, but that's complex.
-        // For this example, we'll just log that it should restart.
-        // In a production environment, a process manager like PM2 would handle this.
-        // For demonstration, we'll just exit and let nodemon (if used) handle the restart.
-        process.exit(0); // Exit cleanly, expecting nodemon to restart
-      }
-    });
+      require('child_process').exec(killCommand, (error: Error | null, stdout: string, stderr: string) => {
+        if (error) {
+          console.error(`Error killing process on port ${port}: ${stderr}`);
+          process.exit(1);
+        } else {
+          console.log(`Process on port ${port} killed successfully.`);
+          // Wait for a short period before retrying
+          setTimeout(() => {
+            retryCount++;
+            startServer(); // Recursively call startServer
+          }, retryDelay);
+        }
+      });
+    } else {
+      console.error(`Port ${port} is already in use and max retries (${maxRetries}) have been reached. Exiting.`);
+      process.exit(1);
+    }
   } else {
     console.error(`Server error: ${err.message}`);
     process.exit(1); // Exit for other errors
   }
-});
+}
+
+startServer(); // Initial call to start the server
+// --- End Server Startup and Error Handling ---

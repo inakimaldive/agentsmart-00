@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airtable Loader</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { padding: 10px 15px; margin-right: 5px; border: none; border-radius: 4px; cursor: pointer; background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Airtable Data Loader</h1>
+
+    <button onclick="loadAirtableData()" id="loadButton">Load Airtable Data</button>
+
+    <div id="dataDisplay">
+        <!-- Fetched data will be displayed here -->
+    </div>
+
+    <script>
+        const API_URL = '/api/items'; // Backend endpoint to fetch data
+
+        async function loadAirtableData() {
+            const loadButton = document.getElementById('loadButton');
+            loadButton.disabled = true;
+            loadButton.textContent = 'Loading...';
+
+            try {
+                // The backend will use the default table name from .env
+                const response = await fetch(API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                displayData(data);
+
+            } catch (error) {
+                console.error("Error loading Airtable data:", error);
+                document.getElementById('dataDisplay').innerHTML = `<p style="color: red;">Error loading data: ${error.message}</p>`;
+            } finally {
+                loadButton.disabled = false;
+                loadButton.textContent = 'Load Airtable Data';
+            }
+        }
+
+        function displayData(items) {
+            const dataDisplay = document.getElementById('dataDisplay');
+            dataDisplay.innerHTML = ''; // Clear previous content
+
+            if (!items || items.length === 0) {
+                dataDisplay.innerHTML = '<p>No items found in the Airtable table.</p>';
+                return;
+            }
+
+            // Collect all unique field names from all items, excluding 'id'
+            let allFieldNames = new Set();
+            items.forEach(item => {
+                // Access keys directly from the item object, as backend flattens fields
+                Object.keys(item).forEach(key => {
+                    if (key !== 'id') {
+                        allFieldNames.add(key);
+                    }
+                });
+            });
+            const headers = Array.from(allFieldNames); // Convert Set to Array
+
+            if (headers.length === 0) {
+                dataDisplay.innerHTML = '<p>Table found, but no fields to display.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            // Create table headers
+            const headerRow = document.createElement('tr');
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Populate table body with data
+            items.forEach(item => {
+                const row = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    const cellValue = item[header]; // Access directly from item
+
+                    td.textContent = typeof cellValue === 'object' && cellValue !== null
+                        ? JSON.stringify(cellValue)
+                        : cellValue !== undefined ? cellValue : '';
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+            dataDisplay.appendChild(table);
+        }
+
+        // Optional: Load data automatically on page load if a default table is set
+        // window.onload = loadAirtableData; // Uncomment if you want it to load automatically
+    </script>
+</body>
+</html>

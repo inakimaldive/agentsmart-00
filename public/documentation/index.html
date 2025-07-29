@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: white;
+            /* Ensure the iframe has a white background */
+        }
+    </style>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AgentSmart: AI-Powered Business Automation</title>
+        <meta name="description"
+            content="Automate business intelligence and content creation with AgentSmart. Save time, gain insights, and grow your small business.">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <style>
+            /* Base Styles */
+            :root {
+                --primary: #4361ee;
+                --primary-dark: #3a56d4;
+                --secondary: #7209b7;
+                --accent: #4cc9f0;
+                --light: #f8f9fa;
+                --dark: #212529;
+                --gray: #6c757d;
+                --success: #4caf50;
+                --border-radius: 8px;
+                --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                --transition: all 0.3s ease;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--dark);
+                background-color: #ffffff;
+                overflow-x: hidden;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-weight: 700;
+                line-height: 1.2;
+                margin-bottom: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            p {
+                margin-bottom: 1rem;
+            }
+
+            a {
+                text-decoration: none;
+                color: var(--primary);
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.8rem 1.5rem;
+                border-radius: var(--border-radius);
+                font-weight: 600;
+                text-align: center;
+                cursor: pointer;
+                transition: var(--transition);
+                border: none;
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                background-color: var(--primary);
+                color: white;
+            }
+
+            .btn-primary:hover {
+                background-color: var(--primary-dark);
+                transform: translateY(-2px);
+                box-shadow: var(--box-shadow);
+            }
+
+            .btn-secondary {
+                background-color: var(--secondary);
+                color: white;
+            }
+
+            .btn-secondary:hover {
+                background-color: #5e0a9c;
+                transform: translateY(-2px);
+                box-shadow: var(--box-shadow);
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .section {
+                padding: 5rem 0;
+            }
+
+            .section-header {
+                margin-bottom: 3rem;
+            }
+
+            .section-header p {
+                max-width: 700px;
+                margin: 0 auto 1.5rem;
+                color: var(--gray);
+            }
+
+            /* Header & Navigation */
+            header {
+                background-color: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 0;
+            }
+
+            .logo {
+                font-size: 1.8rem;
+                font-weight: 800;
+                color: var(--primary);
+            }
+
+            .logo span {
+                color: var(--secondary);
+            }
+
+            .nav-links {
+                display: flex;
+                list-style: none;
+            }
+
+            .nav-links li {
+                margin-left: 2rem;
+            }
+
+            .nav-links a {
+                color: var(--dark);
+                font-weight: 500;
+                transition: var(--transition);
+            }
+
+            .nav-links a:hover {
+                color: var(--primary);
+            }
+
+            /* Hero Section */
+            .hero {
+                background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+                padding: 6rem 0;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
+                z-index: 0;
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 1;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .hero h1 {
+                margin-bottom: 1.5rem;
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+                color: var(--gray);
+                margin-bottom: 2rem;
+            }
+
+            .hero-btns {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            /* Features Section */
+            .features {
+                background-color: white;
+            }
+
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+
+            .feature-card {
+                background: white;
+                border-radius: var(--border-radius);
+                padding: 2rem;
+                text-align: center;
+                box-shadow: var(--box-shadow);
+                transition: var(--transition);
+            }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                color: var(--primary);
+                margin-bottom: 1.5rem;
+            }
+
+            .feature-card h3 {
+                margin-bottom: 1rem;
+            }
+
+            /* How It Works */
+            .how-it-works {
+                background: linear-gradient(135deg, #f0f4f8 0%, #e6f0fa 100%);
+            }
+
+            .steps {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 2rem;
+                counter-reset: step-counter;
+            }
+
+            .step {
+                position: relative;
+                padding: 2rem 1rem 1rem;
+                text-align: center;
+            }
+
+            .step::before {
+                counter-increment: step-counter;
+                content: counter(step-counter);
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40px;
+                height: 40px;
+                background: var(--primary);
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+
+            /* Testimonials */
+            .testimonials {
+                background-color: white;
+            }
+
+            .testimonial-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+
+            .testimonial-card {
+                background: #f8f9fa;
+                border-radius: var(--border-radius);
+                padding: 2rem;
+                box-shadow: var(--box-shadow);
+                position: relative;
+            }
+
+            .testimonial-card::before {
+                content: "";
+                position: absolute;
+                top: 10px;
+                left: 20px;
+                font-size: 4rem;
+                color: var(--accent);
+                opacity: 0.2;
+                font-family: Georgia, serif;
+            }
+
+            .testimonial-text {
+                font-style: italic;
+                margin-bottom: 1.5rem;
+            }
+
+            .testimonial-author {
+                display: flex;
+                align-items: center;
+            }
+
+            .author-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: var(--gray);
+                margin-right: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+            }
+
+            /* CTA Section */
+            .cta {
+                background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+                color: white;
+                text-align: center;
+                padding: 5rem 0;
+            }
+
+            .cta h2 {
+                color: white;
+            }
+
+            .cta p {
+                max-width: 600px;
+                margin: 0 auto 2rem;
+                font-size: 1.1rem;
+            }
+
+            .cta .btn {
+                background-color: white;
+                color: var(--primary);
+                font-weight: bold;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+
+            .cta .btn:hover {
+                background-color: #f0f0f0;
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            /* FAQ Section */
+            .faq {
+                background-color: #f8f9fa;
+            }
+
+            .faq-item {
+                margin-bottom: 1rem;
+                border-radius: var(--border-radius);
+                overflow: hidden;
+                box-shadow: var(--box-shadow);
+            }
+
+            .faq-question {
+                background: white;
+                padding: 1.5rem;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .faq-answer {
+                background: #e9ecef;
+                padding: 0 1.5rem;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease;
+            }
+
+            .faq-answer.open {
+                padding: 1.5rem;
+                max-height: 500px;
+                /* Adjust based on content */
+            }
+
+            .faq-icon {
+                transition: transform 0.3s ease;
+            }
+
+            .faq-item.active .faq-icon {
+                transform: rotate(180deg);
+            }
+
+            /* Footer */
+            footer {
+                background: var(--dark);
+                color: white;
+                padding: 3rem 0 1.5rem;
+            }
+
+            .footer-content {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .footer-column h3 {
+                color: var(--accent);
+                margin-bottom: 1.5rem;
+                font-size: 1.2rem;
+            }
+
+            .footer-links {
+                list-style: none;
+            }
+
+            .footer-links li {
+                margin-bottom: 0.75rem;
+            }
+
+            .footer-links a {
+                color: #adb5bd;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: white;
+            }
+
+            .social-links {
+                display: flex;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .social-links a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+                color: white;
+                transition: var(--transition);
+            }
+
+            .social-links a:hover {
+                background: var(--primary);
+                transform: translateY(-3px);
+            }
+
+            .copyright {
+                text-align: center;
+                padding-top: 1.5rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                color: #adb5bd;
+                font-size: 0.9rem;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 2rem;
+                }
+
+                h2 {
+                    font-size: 1.75rem;
+                }
+
+                .hero {
+                    padding: 4rem 0;
+                }
+
+                .hero h1 {
+                    font-size: 2.2rem;
+                }
+
+                .navbar {
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .nav-links {
+                    margin-top: 1rem;
+                }
+
+                .nav-links li {
+                    margin: 0 1rem;
+                }
+
+                .hero-btns {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .btn {
+                    width: 100%;
+                    max-width: 300px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header>
+            <div class="container">
+                <nav class="navbar">
+                    <a href="#" class="logo">Agent<span>Smart</span></a>
+                    <ul class="nav-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Automate Your Business. Amplify Your Growth.</h1>
+                    <p>Tired of drowning in data and struggling to create compelling content? AgentSmart is your
+                        all-in-one AI-powered SaaS solution for small businesses. Effortlessly gather critical business
+                        intelligence, uncover actionable insights, and generate high-quality content – from social media
+                        posts to blog outlines – in minutes.</p>
+                    <div class="hero-btns">
+                        <a href="#cta" class="btn btn-primary">Start Your Free Trial Today</a>
+                        <a href="/dashboard" class="btn btn-secondary">See How It Works</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Small Businesses Love AgentSmart</h2>
+                    <p class="text-center">Designed to save you time, boost productivity, and give you a competitive
+                        edge.</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Effortless Intelligence</h3>
+                        <p>Automatically collect and summarize data from across the web. No more manual research.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3>AI-Powered Content</h3>
+                        <p>Generate engaging social posts, blog outlines, and reports in seconds. Never run out of
+                            ideas.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Save Time & Resources</h3>
+                        <p>Automate repetitive tasks and boost productivity. Reclaim hours in your week.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Stay Ahead</h3>
+                        <p>Uncover trends and insights to outmaneuver the competition. Make smarter decisions, faster.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="section how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2>How AgentSmart Works</h2>
+                    <p class="text-center">Transform your business intelligence and content creation in just three
+                        simple steps.</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <h3>Automate Intelligence Gathering</h3>
+                        <p>Connect your key data sources – RSS feeds, industry news sites, social media keywords. Our AI
+                            agents collect the latest information 24/7.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Get AI-Powered Insights</h3>
+                        <p>Receive concise summaries and identify key trends automatically. Transform raw data into
+                            clear, actionable intelligence.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Generate Content Instantly</h3>
+                        <p>Turn insights into ready-to-use content. Create social media posts, blog outlines, and simple
+                            reports with a click.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="section testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Our Users Say</h2>
+                    <p class="text-center">Join thousands of small businesses already growing with AgentSmart.</p>
+                </div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">AgentSmart has completely transformed how I stay on top of industry
+                            trends. The content generation feature saves me hours each week!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SJ</div>
+                            <div>
+                                <h4>Sarah Johnson</h4>
+                                <p>Marketing Director, TechStart</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">As a solopreneur, I don't have time for manual research. AgentSmart
+                            automates everything for me. It's like having a full team!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MR</div>
+                            <div>
+                                <h4>Michael Rodriguez</h4>
+                                <p>Founder, LocalEats</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">The insights we get from AgentSmart have helped us identify new
+                            market opportunities we would have otherwise missed. Highly recommended!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">EC</div>
+                            <div>
+                                <h4>Emma Chen</h4>
+                                <p>CEO, GreenSolutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="cta" class="cta">
+            <div class="container">
+                <h2>Ready to Automate Your Business?</h2>
+                <p>Join thousands of small businesses already growing with AgentSmart. Start your free trial today – no
+                    credit card required.</p>
+                <a href="#" class="btn">Start Your Free Trial Today</a>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="section faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p class="text-center">Everything you need to know about AgentSmart.</p>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            What kind of data can AgentSmart gather?
+                            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>AgentSmart's MVP focuses on gathering data from RSS feeds, specific websites (web
+                                scraping), and monitoring social media keywords.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            How does the AI generate content?
+                            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our AI analyzes the gathered intelligence and user prompts (like topic or keywords) to
+                                draft relevant content such as social media posts and blog outlines.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Is AgentSmart easy to use?
+                            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Absolutely! We've designed AgentSmart with simplicity in mind, specifically for busy
+                                small business owners. The intuitive interface makes setup and daily use
+                                straightforward.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Do I need technical skills?
+                            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Not at all. AgentSmart is built for users without technical expertise. Basic
+                                configuration is simple through our dashboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>AgentSmart</h3>
+                        <p>Your AI co-pilot for smarter business growth.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Product</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Integrations</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Resources</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Guides</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Company</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Partners</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 AgentSmart. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            // FAQ Accordion
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    const answer = faqItem.querySelector('.faq-answer');
+
+                    // Close all other open FAQs
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        if (item !== faqItem) {
+                            item.classList.remove('active');
+                            item.querySelector('.faq-answer').classList.remove('open');
+                        }
+                    });
+
+                    // Toggle current FAQ
+                    faqItem.classList.toggle('active');
+                    answer.classList.toggle('open');
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80, // Adjust for fixed header
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+
+    </html>
+
+
+
+    <script>
+
+    </script>
+</body>
+
+</html>

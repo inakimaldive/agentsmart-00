@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentSmart - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            border-radius: 0 30px 30px 0;
+            margin-right: 1rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-links a i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .list-group {
+            list-style: none;
+        }
+
+        .list-group-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-primary {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+        }
+
+        .alert-info {
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            color: #1976d2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: modalopen 0.4s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-60px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: var(--gray);
+        }
+
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mt-2 { margin-top: 1rem; }
+
+        .d-flex { display: flex; }
+        .justify-content-between { justify-content: space-between; }
+        .align-items-center { align-items: center; }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-active {
+            background-color: var(--success);
+        }
+
+        .status-inactive {
+            background-color: var(--gray);
+        }
+
+        .preview-box {
+            background-color: #f8f9fa;
+            border: 1px dashed #ced4da;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            min-height: 200px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .action-buttons a {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+
+        .action-buttons a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 101;
+                background: var(--primary);
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: var(--border-radius);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>AgentSmart</span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li>
+                <a href="#" data-page="bi"><i class="fas fa-chart-line"></i> Business Intelligence</a>
+                <ul style="list-style: none; padding-left: 2rem;">
+                    <li><a href="#" data-page="data-sources"><i class="fas fa-database"></i> Data Sources</a></li>
+                    <li><a href="#" data-page="intelligence-feed"><i class="fas fa-newspaper"></i> Intelligence Feed</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" data-page="content"><i class="fas fa-file-alt"></i> Content Generation</a>
+                <ul style="list-style: none; padding-left: 2rem;">
+                    <li><a href="#" data-page="create-content"><i class="fas fa-plus-circle"></i> Create Content</a></li>
+                    <li><a href="#" data-page="content-library"><i class="fas fa-book"></i> Content Library</a></li>
+                </ul>
+            </li>
+            <li><a href="#" data-page="tasks"><i class="fas fa-tasks"></i> Task Scheduler</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div>
+                    <div>John Doe</div>
+                    <small class="text-muted">john@example.com</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page">
+            <div class="page-header">
+                <h1 class="page-title">Dashboard</h1>
+                <button class="btn btn-primary"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-lightbulb fa-2x text-warning"></i>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">New Insights</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-file-alt fa-2x text-primary"></i>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Content Drafts</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-database fa-2x text-success"></i>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Data Sources</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock fa-2x text-info"></i>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Scheduled Tasks</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Intelligence</h2>
+                    <a href="#" data-page="intelligence-feed">View All</a>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div>
+                            <div class="mb-1"><strong>Industry Report: AI Trends 2024</strong></div>
+                            <div class="text-muted">AI adoption in SMBs is projected to grow by 45% this year...</div>
+                        </div>
+                        <span class="badge badge-primary">RSS Feed</span>
+                    </li>
+                    <li class="list-group-item">
+                        <div>
+                            <div class="mb-1"><strong>Competitor Launches New Product</strong></div>
+                            <div class="text-muted">Key competitor XYZ has released a new solution targeting...</div>
+                        </div>
+                        <span class="badge badge-warning">Web Scraping</span>
+                    </li>
+                    <li class="list-group-item">
+                        <div>
+                            <div class="mb-1"><strong>#SmallBusinessAI is trending</strong></div>
+                            <div class="text-muted">Social media mentions of AI tools for small businesses...</div>
+                        </div>
+                        <span class="badge badge-success">Social Media</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Content</h2>
+                    <a href="#" data-page="content-library">View All</a>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div>
+                            <div class="mb-1"><strong>How AI Can Transform Your Workflow</strong></div>
+                            <div class="text-muted">Social Media Post - Draft</div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" data-page="create-content"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#"><i class="fas fa-copy"></i> Copy</a>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div>
+                            <div class="mb-1"><strong>Top 5 AI Tools for Marketers</strong></div>
+                            <div class="text-muted">Blog Outline - Saved</div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" data-page="create-content"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="#"><i class="fas fa-copy"></i> Copy</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Quick Actions</h2>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline" data-page="data-sources"><i class="fas fa-plus"></i> Add Data Source</button>
+                    <button class="btn btn-outline" data-page="create-content"><i class="fas fa-magic"></i> Generate Content</button>
+                    <button class="btn btn-outline" data-page="tasks"><i class="fas fa-clock"></i> Schedule Task</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Sources Page -->
+        <div id="data-sources-page" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Data Sources</h1>
+                <button class="btn btn-primary" id="add-source-btn"><i class="fas fa-plus"></i> Add New Source</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Configured Sources</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                            <th>Last Fetched</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sources-table-body">
+                        <!-- Sources will be populated here by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Intelligence Feed Page -->
+        <div id="intelligence-feed-page" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Intelligence Feed</h1>
+                <div>
+                    <input type="text" class="form-control" placeholder="Search intelligence..." style="display: inline-block; width: auto;">
+                    <button class="btn btn-outline ml-2"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                Showing latest intelligence gathered from your configured sources.
+            </div>
+
+            <div class="card">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>Industry Report: Q3 Marketing Trends</strong>
+                            <span class="badge badge-primary">RSS Feed</span>
+                        </div>
+                        <p class="mb-1">Comprehensive analysis of marketing trends in Q3, highlighting the rise of AI-powered personalization and the continued importance of video content.</p>
+                        <small class="text-muted">Source: MarketingInsights.com | Collected: 2023-10-26</small>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-magic"></i> Use for Content</button>
+                            <button class="btn btn-sm btn-outline ml-2"><i class="fas fa-star"></i> Bookmark</button>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>Competitor Pricing Update</strong>
+                            <span class="badge badge-warning">Web Scraping</span>
+                        </div>
+                        <p class="mb-1">Our main competitor, CompetitorCo, has adjusted their pricing model. Their basic plan is now $10/month, down from $15.</p>
+                        <small class="text-muted">Source: competitorco.com | Collected: 2023-10-25</small>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-magic"></i> Use for Content</button>
+                            <button class="btn btn-sm btn-outline ml-2"><i class="fas fa-star"></i> Bookmark</button>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>#SmallBusinessAI is trending</strong>
+                            <span class="badge badge-success">Social Media</span>
+                        </div>
+                        <p class="mb-1">Twitter conversation around strategies for small business growth is gaining traction. Key themes include digital marketing, customer retention, and lean operations.</p>
+                        <small class="text-muted">Source: Twitter | Collected: 2023-10-24</small>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-magic"></i> Use for Content</button>
+                            <button class="btn btn-sm btn-outline ml-2"><i class="fas fa-star"></i> Bookmark</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Create Content Page -->
+        <div id="create-content-page" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Create Content</h1>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Content Parameters</h2>
+                </div>
+                <form id="content-form">
+                    <div class="form-group">
+                        <label class="form-label">Topic/Context</label>
+                        <input type="text" class="form-control" id="topic" placeholder="e.g., AI in Small Business, Latest Industry Trends" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Content Type</label>
+                        <select class="form-control" id="content-type" required>
+                            <option value="">Select Type</option>
+                            <option value="social-post">Social Media Post</option>
+                            <option value="blog-outline">Blog Post Outline</option>
+                            <option value="report">Simple Report</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tone</label>
+                        <select class="form-control" id="tone">
+                            <option value="neutral">Neutral</option>
+                            <option value="professional">Professional</option>
+                            <option value="casual">Casual</option>
+                            <option value="informative">Informative</option>
+                            <option value="enthusiastic">Enthusiastic</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Keywords (comma separated)</label>
+                        <input type="text" class="form-control" id="keywords" placeholder="e.g., AI, automation, efficiency">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="generate-btn"><i class="fas fa-bolt"></i> Generate Content</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Generated Content Preview</h2>
+                </div>
+                <div class="preview-box" id="content-preview">
+                    Your generated content will appear here...
+                </div>
+                <div class="mt-2">
+                    <button class="btn btn-success" id="save-content-btn" disabled><i class="fas fa-save"></i> Save to Library</button>
+                    <button class="btn btn-outline" id="copy-content-btn" disabled><i class="fas fa-copy"></i> Copy to Clipboard</button>
+                    <button class="btn btn-outline" id="regenerate-btn" disabled><i class="fas fa-redo"></i> Regenerate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Library Page -->
+        <div id="content-library-page" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Content Library</h1>
+                <div>
+                    <input type="text" class="form-control" placeholder="Search content..." style="display: inline-block; width: auto;">
+                    <button class="btn btn-outline ml-2"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Your Generated Content</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title/Topic</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Date Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>How AI Can Transform Your Workflow</td>
+                            <td><span class="badge badge-primary">Social Post</span></td>
+                            <td><span class="badge badge-warning">Draft</span></td>
+                            <td>2023-10-27</td>
+                            <td>
+                                <a href="#" data-page="create-content"><i class="fas fa-edit"></i> Edit</a> |
+                                <a href="#"><i class="fas fa-copy"></i> Copy</a> |
+                                <a href="#" class="text-danger"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Top 5 AI Tools for Marketers</td>
+                            <td><span class="badge badge-success">Blog Outline</span></td>
+                            <td><span class="badge badge-success">Saved</span></td>
+                            <td>2023-10-26</td>
+                            <td>
+                                <a href="#" data-page="create-content"><i class="fas fa-edit"></i> Edit</a> |
+                                <a href="#"><i class="fas fa-copy"></i> Copy</a> |
+                                <a href="#" class="text-danger"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Q3 Market Analysis Summary</td>
+                            <td><span class="badge badge-info">Report</span></td>
+                            <td><span class="badge badge-success">Saved</span></td>
+                            <td>2023-10-25</td>
+                            <td>
+                                <a href="#" data-page="create-content"><i class="fas fa-edit"></i> Edit</a> |
+                                <a href="#"><i class="fas fa-copy"></i> Copy</a> |
+                                <a href="#" class="text-danger"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Task Scheduler Page -->
+        <div id="task-scheduler-page" style="display: none;">
+            <div class="page-header">
+                <h1 class="page-title">Task Scheduler</h1>
+                <button class="btn btn-primary" id="create-task-btn"><i class="fas fa-plus"></i> Create New Task</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Scheduled Tasks</h2>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Task Name</th>
+                            <th>Type</th>
+                            <th>Schedule</th>
+                            <th>Status</th>
+                            <th>Next Run</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Daily Industry News Fetch</td>
+                            <td>RSS Feed</td>
+                            <td>Daily at 08:00 AM</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Tomorrow, 08:00 AM</td>
+                            <td>
+                                <a href="#"><i class="fas fa-edit"></i> Edit</a> |
+                                <a href="#" class="text-danger"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Weekly Competitor Analysis</td>
+                            <td>Web Scraping</td>
+                            <td>Every Monday at 09:00 AM</td>
+                            <td><span class="badge badge-success">Active</span></td>
+                            <td>Next Monday, 09:00 AM</td>
+                            <td>
+                                <a href="#"><i class="fas fa-edit"></i> Edit</a> |
+                                <a href="#" class="text-danger"><i class="fas fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Source Modal -->
+    <div id="add-source-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Data Source</h2>
+            <form id="source-form">
+                <div class="form-group">
+                    <label class="form-label">Source Name</label>
+                    <input type="text" class="form-control" id="source-name" placeholder="e.g., My Industry Blog" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Source Type</label>
+                    <select class="form-control" id="source-type" required>
+                        <option value="">Select Type</option>
+                        <option value="rss">RSS Feed</option>
+                        <option value="website">Website URL</option>
+                        <option value="social">Social Media Keyword</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">URL/Keyword</label>
+                    <input type="text" class="form-control" id="source-url" placeholder="e.g., https://example.com/feed or #mybrand" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Source</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div id="create-task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Scheduled Task</h2>
+            <form id="task-form">
+                <div class="form-group">
+                    <label class="form-label">Task Name</label>
+                    <input type="text" class="form-control" id="task-name" placeholder="e.g., Daily News Summary" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Task Type</label>
+                    <select class="form-control" id="task-type" required>
+                        <option value="">Select Type</option>
+                        <option value="rss-fetch">Fetch RSS Feed</option>
+                        <option value="web-scrape">Scrape Website</option>
+                        <option value="content-gen">Generate Content</option>
+                    </select>
+                </div>
+                <div class="form-group" id="task-details-rss" style="display:none;">
+                    <label class="form-label">RSS Feed URL</label>
+                    <input type="url" class="form-control" id="task-rss-url" placeholder="https://example.com/feed">
+                </div>
+                <div class="form-group" id="task-details-content" style="display:none;">
+                    <label class="form-label">Content Topic</label>
+                    <input type="text" class="form-control" id="task-content-topic" placeholder="e.g., Weekly Trends">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Schedule</label>
+                    <select class="form-control" id="task-schedule" required>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- Mock Data ---
+        const mockSources = [
+            { id: 1, name: "Industry News Feed", type: "rss", details: "https://example.com/news/feed", status: "active", lastFetched: "2023-10-27 08:00" },
+            { id: 2, name: "Competitor Website", type: "website", details: "https://competitor.com", status: "active", lastFetched: "2023-10-27 09:15" },
+            { id: 3, name: "Brand Monitoring", type: "social", details: "#mybrand", status: "inactive", lastFetched: "2023-10-26 10:00" }
+        ];
+
+        // --- Page Navigation ---
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('[id$="-page"]').forEach(page => {
+                page.style.display = 'none';
+            });
+            // Show the requested page
+            const targetPage = document.getElementById(`${pageId}-page`);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Handle navigation clicks
+        document.querySelectorAll('[data-page]').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = item.dataset.page;
+                showPage(page);
+                
+                // Handle sub-menu expansion
+                const parentLi = item.closest('li');
+                if (parentLi && parentLi.querySelector('ul')) {
+                    parentLi.querySelector('ul').style.display = 
+                        parentLi.querySelector('ul').style.display === 'block' ? 'none' : 'block';
+                }
+            });
+        });
+
+        // --- Modal Handling ---
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Close buttons
+        document.querySelectorAll('.close').forEach(button => {
+            button.addEventListener('click', () => {
+                button.closest('.modal').style.display = 'none';
+            });
+        });
+
+        // Open modals
+        document.getElementById('add-source-btn')?.addEventListener('click', () => openModal('add-source-modal'));
+        document.getElementById('create-task-btn')?.addEventListener('click', () => openModal('create-task-modal'));
+
+        // --- Data Sources Page Logic ---
+        function renderSources() {
+            const tbody = document.getElementById('sources-table-body');
+            tbody.innerHTML = '';
+            mockSources.forEach(source => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${source.name}</td>
+                    <td>${source.type.toUpperCase()}</td>
+                    <td>${source.details}</td>
+                    <td><span class="status-indicator status-${source.status}"></span> ${source.status.charAt(0).toUpperCase() + source.status.slice(1)}</td>
+                    <td>${source.lastFetched}</td>
+                    <td>
+                        <a href="#"><i class="fas fa-edit"></i></a> |
+                        <a href="#" class="text-danger"><i class="fas fa-trash"></i></a>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Add Source Form Submission
+        document.getElementById('source-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('source-name').value;
+            const type = document.getElementById('source-type').value;
+            const url = document.getElementById('source-url').value;
+            
+            // In a real app, you would send this to your backend
+            console.log("Adding source:", { name, type, url });
+            alert(`Source "${name}" added successfully!`);
+            
+            // Reset form and close modal
+            this.reset();
+            closeModal('add-source-modal');
+            
+            // Re-render sources (in a real app, you'd fetch updated list)
+            renderSources();
+        });
+
+        // --- Content Generation Logic ---
+        document.getElementById('content-form')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const topic = document.getElementById('topic').value;
+            const contentType = document.getElementById('content-type').value;
+            const tone = document.getElementById('tone').value;
+            const keywords = document.getElementById('keywords').value.split(',').map(k => k.trim()).filter(k => k);
+
+            const generateBtn = document.getElementById('generate-btn');
+            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            generateBtn.disabled = true;
+
+            try {
+                // Simulate API call to backend
+                // In a real app: const response = await fetch('/api/content/generate-social-post', { ... });
+                // For demo, we'll mock the response
+                await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+                
+                // Mock response based on content type
+                let mockResponse;
+                if (contentType === 'social-post') {
+                    mockResponse = {
+                        generatedContent: `🚀 Exciting times ahead! Just read about "${topic}" and it's clear this trend is reshaping how we do business.\n\nKey takeaways:\n- Efficiency is key\n- AI is a game-changer\n- Staying informed is crucial\n\nWhat are your thoughts on this? #AI #SmallBusiness #Innovation`
+                    };
+                } else if (contentType === 'blog-outline') {
+                    mockResponse = {
+                        generatedContent: `## Blog Outline: ${topic}\n\n### I. Introduction\n- Hook: Why this topic matters now\n- Brief overview of key points\n\n### II. Understanding the Core Concepts\n- Definition of key terms\n- Historical context or evolution\n\n### III. Current Applications and Trends\n- Real-world examples\n- Industry adoption rates\n\n### IV. Benefits and Challenges\n- Advantages for businesses\n- Potential obstacles\n\n### V. Future Outlook\n- Predictions for the next 5 years\n- How to prepare\n\n### VI. Conclusion\n- Summary of main points\n- Call to action for the reader`
+                    };
+                } else {
+                    mockResponse = {
+                        generatedContent: `# Report: ${topic}\n\n## Executive Summary\nThis report analyzes the current state of ${topic} and its implications for small businesses.\n\n## Key Findings\n1. ${topic} is rapidly evolving.\n2. Early adopters are seeing significant benefits.\n3. There are clear pathways for implementation.\n\n## Recommendations\n- Investigate how ${topic} can be applied to your specific business model.\n- Allocate resources for pilot projects.\n- Monitor industry leaders for best practices.`
+                    };
+                }
+
+                document.getElementById('content-preview').textContent = mockResponse.generatedContent;
+                document.getElementById('save-content-btn').disabled = false;
+                document.getElementById('copy-content-btn').disabled = false;
+                document.getElementById('regenerate-btn').disabled = false;
+                
+            } catch (error) {
+                console.error('Error generating content:', error);
+                document.getElementById('content-preview').textContent = 'Failed to generate content. Please try again.';
+            } finally {
+                generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate Content';
+                generateBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('copy-content-btn')?.addEventListener('click', function() {
+            const content = document.getElementById('content-preview').textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                alert('Content copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+
+        // --- Task Scheduler Logic ---
+        document.getElementById('task-type')?.addEventListener('change', function() {
+            document.getElementById('task-details-rss').style.display = 'none';
+            document.getElementById('task-details-content').style.display = 'none';
+            
+            if (this.value === 'rss-fetch') {
+                document.getElementById('task-details-rss').style.display = 'block';
+            } else if (this.value === 'content-gen') {
+                document.getElementById('task-details-content').style.display = 'block';
+            }
+        });
+
+        document.getElementById('task-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('task-name').value;
+            const type = document.getElementById('task-type').value;
+            
+            // In a real app, you would send this to your backend
+            console.log("Creating task:", { name, type });
+            alert(`Task "${name}" created successfully!`);
+            
+            // Reset form and close modal
+            this.reset();
+            closeModal('create-task-modal');
+        });
+
+        // --- Initial Setup ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show dashboard by default
+            showPage('dashboard');
+            
+            // Render initial data sources
+            renderSources();
+        });
+    </script>
+</body>
+</html>
